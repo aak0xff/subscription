@@ -4,6 +4,9 @@ import urllib.parse
 from Crypto.Cipher import AES
 import base64
 import json
+from threading import Thread
+from hermes_scraper import scrape_hermes
+
 
 app = Flask(__name__)
 
@@ -68,5 +71,11 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=10000)
+
+    t = Thread(target=scrape_hermes, daemon=True)
+    t.start()
+
+    # 啟動 Flask API
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0',port=port)
 
