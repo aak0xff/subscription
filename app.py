@@ -72,8 +72,8 @@ def index():
 
 if __name__ == '__main__':
 
-    t = Thread(target=scrape_hermes, daemon=True)
-    t.start()
+    #t = Thread(target=scrape_hermes, daemon=True)
+    #t.start()
 
     # 啟動 Flask API
     port = int(os.environ.get('PORT', 10000))
