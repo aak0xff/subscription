@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>最新訂閱</title>
+</head>
+<body>
+  <h1>最新訂閱服務</h1>
+  <p>訂閱後可享有 Hermès 最新商品即時更新通知</p>
+
+  <input type="email" id="email" placeholder="請輸入 Email">
+  <button onclick="subscribe()">訂閱</button>
+
+  <form id="payForm" method="POST" action="https://ccore.newebpay.com/MPG/mpg_gateway" style="display: none;">
+    <input type="hidden" name="MerchantID" id="MerchantID">
+    <input type="hidden" name="TradeInfo" id="TradeInfo">
+    <input type="hidden" name="TradeSha" id="TradeSha">
+    <input type="hidden" name="Version" value="1.5">
+  </form>
+
+  <script>
+    async function subscribe() {
+      const email = document.getElementById('email').value;
+      if (!email) {
+        alert("請輸入 Email");
+        return;
+      }
+
+      try {
+        const response = await fetch("https://subscription-ctlo.onrender.com/create-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+
+        const data = await response.json();
+        if (data.MerchantID && data.TradeInfo && data.TradeSha) {
+          document.getElementById('MerchantID').value = data.MerchantID;
+          document.getElementById('TradeInfo').value = data.TradeInfo;
+          document.getElementById('TradeSha').value = data.TradeSha;
+
+          document.getElementById('payForm').submit();
+        } else {
+          alert("後端回傳資料有誤，請稍後再試");
+        }
+      } catch (err) {
+        alert("連線失敗，請檢查網路");
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
+
