@@ -9,8 +9,8 @@ app = Flask(__name__)
 
 # 替換成你的藍新金鑰資料
 MERCHANT_ID = '你的 MerchantID'
-HASH_KEY = '你的 HashKey'
-HASH_IV = '你的 HashIV'
+HASH_KEY = '12345678901234567890123456789012'  # 32 字元
+HASH_IV = '1234567890123456'                  # 16 字元
 
 # AES 加密
 def aes_encrypt(data):
