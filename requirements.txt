@@ -3,3 +3,4 @@ stripe
 flask-cors
 pycryptodome
 sendgrid
+supabase
