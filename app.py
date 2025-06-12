@@ -67,7 +67,7 @@ def create_status_email_content(email, status):
     html_content = f"""
     <html>
     <body>
-        <h2>Hermès 訂閱狀態查詢結果</h2>
+        <h2>Pinggle：Hermès上新訂閱狀態查詢結果</h2>
         <p>{email} 的訂閱狀態為：<strong>{status}</strong></p>
         <p>若您不是本人，請忽略此信。</p>
     </body>
@@ -157,7 +157,7 @@ def subscribe():
         token = create_token(email, 'subscribe')
 
     email_content = create_confirm_email_content(email, token, is_active)
-    send_email([email], "Hermès Notify 確認訂閱", email_content)
+    send_email([email], "Pinggle：確認訂閱", email_content)
     return render_template('result.html', title="確認信已發送", message="已發送確認信件，請查收信箱")
 
 
@@ -183,7 +183,7 @@ def send_status_link():
                 status = "已取消訂閱，且已過期"
 
     content = create_status_email_content(email, status)
-    send_email([email], "Hermès Notify 訂閱狀態", content)
+    send_email([email], "Pinggle：訂閱狀態", content)
     return render_template('result.html', title="查詢結果已寄出", message="請查收您的信箱")
 
 
@@ -198,7 +198,7 @@ def send_unsubscribe_link():
     is_active = response.data[0].get("is_active")
     token = create_token(email, 'unsubscribe')
     content = create_unsubscribe_email_content(email, token, is_active)
-    send_email([email], "Hermès Notify 取消訂閱", content)
+    send_email([email], "Pinggle：取消訂閱", content)
     return render_template('result.html', title="取消連結已寄出", message="已寄出取消連結，請查收信箱")
 
 
@@ -247,13 +247,6 @@ def unsubscribe():
 def privacy():
     return render_template('privacy.html')
 
-'''
-@app.route("/test-send")
-def test_send():
-    html = "<strong>這是測試信件，感謝你訂閱 Hermès Notify</strong>"
-    result = send_email("aak.org@gmail.com", "Hermès Notify 測試信", html)
-    return "寄信成功" if result == 202 else "寄信失敗"
-'''
 
 if __name__ == '__main__':
 

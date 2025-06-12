@@ -9,7 +9,7 @@ from sendgrid.helpers.mail import Mail
 
 def send_email(to_email, subject, html_content):
     message = Mail(
-        from_email=('no-reply@hermes-notify.me', 'Hermès Notify 通知系統'),
+        from_email=('no-reply@pinggle.me', 'Pinggle 通知系統'),
         to_emails=to_email,
         subject=subject,
         html_content=html_content
