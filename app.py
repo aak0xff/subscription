@@ -56,7 +56,7 @@ def create_confirm_email_content(email, token, is_active):
         <body>
             <h1>訂閱確認</h1>
             <p>請點擊以下連結完成訂閱：</p>
-            <a href="https://bf44-2407-4d00-4c00-421-34e2-8d55-555a-ff55.ngrok-free.app/confirm-subscribe?token={token}&email={email}">確認訂閱</a>
+            <a href="https://pinggle.me/confirm-subscribe?token={token}&email={email}">確認訂閱</a>
             <p>連結 30 分鐘內有效</p>
         </body>
         </html>
@@ -83,7 +83,7 @@ def create_unsubscribe_email_content(email, token, is_active):
         <body>
             <h2>取消訂閱連結</h2>
             <p>請點擊以下連結取消訂閱：</p>
-            <a href="https://bf44-2407-4d00-4c00-421-34e2-8d55-555a-ff55.ngrok-free.app/unsubscribe?token={token}&email={email}">取消訂閱</a>
+            <a href="https://pinggle.me/unsubscribe?token={token}&email={email}">取消訂閱</a>
         </body>
         </html>
         """
