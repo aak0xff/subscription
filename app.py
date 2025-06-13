@@ -4,7 +4,7 @@ import os
 import secrets
 from datetime import datetime, timedelta, timezone
 from dateutil.parser import isoparse
-from email_util import send_email, send_email_async
+from email_util import send_email
 from threading import Thread
 
 
