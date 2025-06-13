@@ -7,9 +7,12 @@ import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
+from threading import Thread
+
+
 def send_email(to_email, subject, html_content):
     message = Mail(
-        from_email=('no-reply@pinggle.me', 'Pinggle 通知系統'),
+        from_email=('no-reply@pinggle.me', 'Pinggle Hermes 通知系統'),
         to_emails=to_email,
         subject=subject,
         html_content=html_content
@@ -23,6 +26,13 @@ def send_email(to_email, subject, html_content):
     except Exception as e:
         print(e)
         return None
+
+def send_email_async(to_email, subject, html_content):
+    def _send():
+        send_email(to_email, subject, html_content)  # 你原本的寄信函式
+    Thread(target=_send).start()
+
+
 
 '''
 def send_email(email_addr,html_content):

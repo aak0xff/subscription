@@ -4,7 +4,7 @@ import os
 import secrets
 from datetime import datetime, timedelta, timezone
 from dateutil.parser import isoparse
-from email_util import send_email
+from email_util import send_email_async
 
 app = Flask(__name__)
 
@@ -157,7 +157,7 @@ def subscribe():
         token = create_token(email, 'subscribe')
 
     email_content = create_confirm_email_content(email, token, is_active)
-    send_email([email], "Pinggle：確認訂閱", email_content)
+    send_email_async([email], "Pinggle：確認訂閱", email_content)
     return render_template('result.html', title="確認信已發送", message="已發送確認信件，請查收信箱")
 
 
@@ -183,7 +183,7 @@ def send_status_link():
                 status = "已取消訂閱，且已過期"
 
     content = create_status_email_content(email, status)
-    send_email([email], "Pinggle：訂閱狀態", content)
+    send_email_async([email], "Pinggle：訂閱狀態", content)
     return render_template('result.html', title="查詢結果已寄出", message="請查收您的信箱")
 
 
@@ -198,7 +198,7 @@ def send_unsubscribe_link():
     is_active = response.data[0].get("is_active")
     token = create_token(email, 'unsubscribe')
     content = create_unsubscribe_email_content(email, token, is_active)
-    send_email([email], "Pinggle：取消訂閱", content)
+    send_email_async([email], "Pinggle：取消訂閱", content)
     return render_template('result.html', title="取消連結已寄出", message="已寄出取消連結，請查收信箱")
 
 
