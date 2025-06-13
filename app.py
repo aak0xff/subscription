@@ -4,7 +4,9 @@ import os
 import secrets
 from datetime import datetime, timedelta, timezone
 from dateutil.parser import isoparse
-from email_util import send_email_async
+from email_util import send_email, send_email_async
+from threading import Thread
+
 
 app = Flask(__name__)
 
@@ -104,10 +106,9 @@ def index():
 
 
 
-def create_token(email, purpose):
+def create_token(email, purpose, ip):
     token = secrets.token_urlsafe(32)
     expires_at = (datetime.now(timezone.utc) + timedelta(minutes=30)).isoformat()
-    ip = request.headers.get('X-Forwarded-For', request.remote_addr)
 
     # 刪除舊的紀錄，插入新的 pending 訂閱
     token_table.insert({
@@ -145,19 +146,23 @@ def update_token_usage(token):
 @app.route('/subscribe', methods=['POST'])
 def subscribe():
     email = request.form["email"].strip().lower()
+    ip = request.headers.get('X-Forwarded-For', request.remote_addr)
 
-    response = subscriber_table.select("is_active").eq("email", email).execute()
-    is_active = False
-    if response.data:
-        is_active = response.data[0].get("is_active")
-        if is_active:
-            token = None
+    def run_task():
+        response = subscriber_table.select("is_active").eq("email", email).execute()
+        is_active = False
+        if response.data:
+            is_active = response.data[0].get("is_active")
+            if is_active:
+                token = None
 
-    if not is_active:
-        token = create_token(email, 'subscribe')
+        if not is_active:
+            token = create_token(email, 'subscribe', ip)
 
-    email_content = create_confirm_email_content(email, token, is_active)
-    send_email_async([email], "Pinggle：確認訂閱", email_content)
+        email_content = create_confirm_email_content(email, token, is_active)
+        send_email([email], "Pinggle：確認訂閱", email_content)
+
+    Thread(target=run_task).start()
     return render_template('result.html', title="確認信已發送", message="已發送確認信件，請查收信箱")
 
 
@@ -165,46 +170,53 @@ def subscribe():
 def send_status_link():
     email = request.form["email"].strip()
 
-    # 查訂閱狀態
-    response = subscriber_table.select("*").eq("email", email).execute()
-    if not response.data:
-        status = "尚未訂閱"
-    else:
-        row = response.data[0]
-        is_active = row.get("is_active")
-        ends_at = isoparse(row.get("ends_at"))
-
-        if is_active:
-            status = "訂閱中，下一次扣款日期為 " + ends_at.strftime("%Y-%m-%d")
+    def run_task():
+        # 查訂閱狀態
+        response = subscriber_table.select("*").eq("email", email).execute()
+        if not response.data:
+            status = "尚未訂閱"
         else:
-            if datetime.now(timezone.utc).date() <= ends_at.date():
-                status = "已取消訂閱，在" + ends_at.strftime("%Y-%m-%d") + " 之前，您將可以繼續使用此服務"
-            else:
-                status = "已取消訂閱，且已過期"
+            row = response.data[0]
+            is_active = row.get("is_active")
+            ends_at = isoparse(row.get("ends_at"))
 
-    content = create_status_email_content(email, status)
-    send_email_async([email], "Pinggle：訂閱狀態", content)
+            if is_active:
+                status = "訂閱中，下一次扣款日期為 " + ends_at.strftime("%Y-%m-%d")
+            else:
+                if datetime.now(timezone.utc).date() <= ends_at.date():
+                    status = "已取消訂閱，在" + ends_at.strftime("%Y-%m-%d") + " 之前，您將可以繼續使用此服務"
+                else:
+                    status = "已取消訂閱，且已過期"
+
+        content = create_status_email_content(email, status)
+        send_email([email], "Pinggle：訂閱狀態", content)
+
+    Thread(target=run_task).start()
     return render_template('result.html', title="查詢結果已寄出", message="請查收您的信箱")
 
 
 @app.route("/send-unsubscribe-link", methods=["POST"])
 def send_unsubscribe_link():
     email = request.form["email"].strip().lower()
-    response = subscriber_table.select("is_active").eq("email", email).execute()
+    ip = request.headers.get('X-Forwarded-For', request.remote_addr)
 
-    if not response.data:
-        return render_message_page("錯誤", "查無此 Email 訂閱紀錄")
-    
-    is_active = response.data[0].get("is_active")
-    token = create_token(email, 'unsubscribe')
-    content = create_unsubscribe_email_content(email, token, is_active)
-    send_email_async([email], "Pinggle：取消訂閱", content)
+    def run_task(email):
+        response = subscriber_table.select("is_active").eq("email", email).execute()
+        if not response.data:
+            return
+        is_active = response.data[0].get("is_active")
+        token = create_token(email, 'unsubscribe', ip)
+        content = create_unsubscribe_email_content(email, token, is_active)
+        send_email([email], "Pinggle：取消訂閱", content)
+
+    Thread(target=run_task, args=(email,)).start()
     return render_template('result.html', title="取消連結已寄出", message="已寄出取消連結，請查收信箱")
 
 
 @app.route("/confirm-subscribe")
 def confirm_subscribe():
     token = request.args.get("token")
+    
     if not is_valid_token(token):
         return render_message_page("錯誤", "無效的或已過期，請重新訂閱")
     

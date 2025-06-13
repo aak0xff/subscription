@@ -27,12 +27,6 @@ def send_email(to_email, subject, html_content):
         print(e)
         return None
 
-def send_email_async(to_email, subject, html_content):
-    def _send():
-        send_email(to_email, subject, html_content)  # 你原本的寄信函式
-    Thread(target=_send).start()
-
-
 
 '''
 def send_email(email_addr,html_content):
