@@ -76,7 +76,7 @@ def login():
         "created_at": datetime.now(timezone.utc).isoformat()
     }).execute()
 
-    link = f"http://127.0.0.1:5000/verify?token={token}"
+    link = f"https://pinggle.me/verify?token={token}"
     btn = "立即訂閱" if purpose == "subscribe" else "立即登入"
     html = f"""
     <html><body style="font-family:Arial;background:#fff;padding:20px;">
