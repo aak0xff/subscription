@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}管理訂閱{% endblock %}
+{% block content %}
+<h2 class="mb-4 fw-bold text-white text-center" style="font-size: 1.6rem;">{{ email }}</h2>
+
+{% if is_active %}
+  <div class="mb-4 p-4 rounded" style="background-color: #1a1a1a; color: #e0e0e0; border: 1px solid #333;">
+    <div class="mb-3">
+      <span class="badge bg-success" style="font-size: 1rem; padding: 8px 16px;">訂閱中</span>
+    </div>
+    <p class="mb-2" style="font-size: 1.1rem;">
+      <strong>NT$299 / 月</strong>
+    </p>
+    <p class="mb-3" style="font-size: 1rem;">下一次扣款日：<strong>{{ ends_at[:10] }}</strong></p>
+    <p class="mb-1 fw-bold">方案內容：</p>
+    <div style="font-size: 0.95rem;">
+      Hermès 台灣官網上新通知<br>
+      含各式男女包款與配件
+    </div>
+  </div>
+  <div class="d-flex justify-content-center gap-2">
+    <a href="/unsubscribe-action" class="btn btn-outline-secondary btn-sm px-4">取消訂閱</a>
+    <a href="/logout" class="btn btn-outline-secondary btn-sm px-4">登出</a>
+  </div>
+
+{% else %}
+  <div class="mb-4 p-4 rounded" style="background-color: #1a1a1a; color: #e0e0e0; border: 1px solid #333;">
+    <div class="mb-3">
+      <span class="badge bg-warning text-dark" style="font-size: 1rem; padding: 8px 16px;">尚未訂閱</span>
+    </div>
+    <p class="mb-3" style="font-size: 1rem;">您在<strong>{{ ends_at[:10] }}</strong>之前依然可以使用此服務</p>
+    <p class="mb-2" style="font-size: 1.1rem;">
+      <strong>繼續訂閱，限時優惠 NT$299 / 月</strong>
+      <span style="font-size: 0.95rem; color: #aaa;">（之後恢復原價 NT$499 / 月）</span>
+    </p>
+    <p class="mb-1 fw-bold">方案內容：</p>
+    <div style="font-size: 0.95rem;">
+      Hermès 台灣官網上新通知<br>
+      含各式男女包款與配件
+    </div>
+  </div>
+  <div class="d-flex justify-content-center gap-2">
+    <a href="/subscribe-action" class="btn btn-outline-light btn-sm px-4">立即訂閱</a>
+    <a href="/logout" class="btn btn-outline-secondary btn-sm px-4">登出</a>
+  </div>
+{% endif %}
+{% endblock %}

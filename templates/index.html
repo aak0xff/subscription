@@ -1,35 +1,25 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pinggle 訂閱系統</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       background-color: #000;
       color: #fff;
       font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
       text-align: center;
+      padding: 0;
+      margin: 0;
     }
-
     .container {
       max-width: 600px;
       margin: auto;
       padding: 60px 20px;
     }
-
-    .logo {
-      font-size: 40px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-      color: #fff;
-    }
-
     .form-control-custom {
       background-color: transparent;
       color: #fff;
@@ -37,21 +27,9 @@
       border-radius: 12px;
       font-size: 1.1rem;
       padding: 12px;
-      width: 100%;
       margin-bottom: 20px;
+      width: 100%;
     }
-
-    .form-control-custom::placeholder {
-      color: #aaa;
-    }
-
-    .form-control-custom:focus {
-      background-color: transparent;
-      color: #fff;
-      border-color: #888;
-      box-shadow: none;
-    }
-
     .btn-custom {
       border: 1px solid #ccc;
       background-color: transparent;
@@ -59,123 +37,42 @@
       font-size: 1.1rem;
       padding: 12px;
       color: #fff;
-      transition: all 0.2s;
     }
-
-    .btn-outline-light {
-      border-radius: 10px;
-      border: 1px solid #aaa;
-      color: #ccc;
-    }
-
-    .btn-outline-light:hover {
-      background-color: #222;
-      color: #fff;
-    }
-
     .btn-custom:hover {
       background-color: #222;
     }
-
-    .gap-3 > * {
-      margin-top: 10px;
-    }
-
     .promo-box {
       background-color: #b35400;
-      color: #fff;
       padding: 16px;
       border-radius: 10px;
       margin-top: 40px;
-    }
-
-    @media (max-width: 576px) {
-      body {
-        padding: 10px;
-      }
-
-      .btn-custom,
-      .form-control-custom {
-        font-size: 1rem;
-        padding: 10px;
-      }
-
-      .logo {
-        font-size: 32px;
-      }
-
-      .btn-outline-light {
-        font-size: 0.9rem;
-        padding: 8px 12px;
-      }
+      color: #fff;
     }
   </style>
 </head>
 <body>
+
   <div class="container">
     <div class="logo">
       <img src="{{ url_for('static', filename='logo.png') }}" alt="Pinggle Logo" style="max-width: 220px;" class="mb-2">
     </div>
 
-    <form id="emailForm" method="post">
-      <input type="email" class="form-control-custom" id="email" name="email" placeholder="請輸入 Email" required>
-      <input type="hidden" name="action" id="actionInput" value="">
-
+    <form method="POST" action="/login">
+      <input type="email" name="email" class="form-control-custom" placeholder="請輸入 Email" required />
       <div class="d-grid mb-3">
-        <button type="submit" class="btn btn-custom btn-lg" onclick="setAction('/subscribe')">
-          立即訂閱 Hermès 新品通知
-        </button>
+        <button type="submit" class="btn btn-custom btn-lg">立即訂閱 / 已有帳號登入</button>
       </div>
-
-      <div class="d-flex flex-wrap justify-content-end justify-content-center-sm gap-2">
-        <button type="submit" class="btn btn-outline-light btn-sm" onclick="setAction('/send-status-link')">
-          🔍 查詢訂閱
-        </button>
-        <button type="submit" class="btn btn-outline-light btn-sm" onclick="setAction('/send-unsubscribe-link')">
-          ❌ 取消訂閱
-        </button>
-      </div>
-
-      <!-- 新增說明區，移到按鈕群下方，保留間距 -->
       <p class="mt-4" style="font-size: 0.95rem; color: #bbb;">
-        目前支援 <strong style="color: #fff;">Hermès 台灣官網</strong> 上新通知，涵蓋熱門女士、男士包款與配件系列。<br>
-        未來將持續擴充更多品牌與商品類別，敬請期待。
+        不錯過任何一款<strong style="color: #fff;">Hermès</strong> 上新好物。<br>
+        即時掌握台灣官網最新男女包款與配件上架動態。<br>
       </p>
     </form>
 
     <div class="promo-box">
-      <p class="mb-1"><strong>⚡ 限時優惠：現在訂閱只要 NT$299 / 月！</strong></p>
-      <p class="mb-0">優惠結束後將恢復為 NT$499 / 月，立即搶先訂閱</p>
+      <p class="mb-1"><strong>⚡ 限時優惠：NT$299 / 月！</strong></p>
+      <p class="mb-0">優惠結束後恢復為 NT$499 / 月</p>
     </div>
-
-    <!-- 預留商品展示區 -->
-    <div class="mt-5" id="recent-products">
-      <!-- 這裡未來可插入商品展示卡片 -->
-    </div>
-
-    <div class="mt-5" style="font-size: 0.9rem; color: #888;">
-      <p>Pinggle 是一款即時通知平台，讓你第一時間掌握感興趣的新品上架。未來將支援更多精品品牌與熱門商品通知。</p>
-    </div>
-
-    <footer class="footer mt-5 py-4 text-center text-muted" style="font-size: 0.9rem;">
-      <hr style="border-color: #444;">
-      <p>客服信箱：support@pinggle.me</p>
-      <p>© 2025 Pinggle. All rights reserved.</p>
-      <p>Crafted by Weishun</p>
-      <p>
-        <a href="{{ url_for('privacy') }}" style="color: #888; font-size: 0.85rem; text-decoration: underline;">
-          隱私權政策
-        </a>
-      </p>
-    </footer>
-
-    <script>
-      function setAction(path) {
-        const form = document.getElementById('emailForm');
-        form.action = path;
-        document.getElementById('actionInput').value = path;
-      }
-    </script>
   </div>
+
 </body>
 </html>

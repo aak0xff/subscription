@@ -27,36 +27,32 @@ def send_email(to_email, subject, html_content):
         print(e)
         return None
 
-
 '''
-def send_email(email_addr,html_content):
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
-    content = MIMEText(html_content, 'html')
-
-
-    # Email 設定
+def send_email(email_addr_list, subject, html_content):
     from_addr = "aak.org@gmail.com"
-    to_addr = "aak.org@gmail.com"
-    bcc_list = email_addr
-    subject = "新品上市通知"
+    to_addr = from_addr  # 主收件人（會收到）
+    bcc_list = email_addr_list  # 實際通知對象（隱藏收件人）
 
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
     msg['From'] = from_addr
     msg['To'] = to_addr
 
-    msg.attach(content)
+    msg.attach(MIMEText(html_content, 'html'))
 
-    # 發送 Email (以 Gmail 為例)
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
     smtp_user = from_addr
-    smtp_pass = "ilrq ubae vuqc ekni"  # 注意，不是 Gmail 密碼，要產生 App Password
+    smtp_pass = "tuha gusr lyuj itts"  # 建議用 os.environ 讀取
 
     with smtplib.SMTP(smtp_server, smtp_port) as server:
         server.starttls()
         server.login(smtp_user, smtp_pass)
-        server.sendmail(from_addr, [to_addr]+bcc_list, msg.as_string())
+        server.sendmail(from_addr, [to_addr] + bcc_list, msg.as_string())
 
-    print("Email 已發送成功！")
+    print("✅ Email 已成功發送！")
 '''

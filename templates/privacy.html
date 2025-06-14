@@ -1,73 +1,8 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>隱私權政策 | Pinggle</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 720px;
-            margin: auto;
-            padding: 60px 20px 40px 20px;
-        }
-        .logo {
-            font-size: 36px;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        h1 {
-            font-size: 1.75rem;
-            color: #eee;
-            margin-bottom: 30px;
-        }
-        h5 {
-            color: #ccc;
-            margin-top: 30px;
-            font-size: 1.1rem;
-        }
-        p {
-            line-height: 1.7;
-            margin-top: 10px;
-            color: #ddd;
-        }
-        a {
-            color: #aaa;
-        }
-        footer {
-            margin-top: 60px;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #888;
-            padding-bottom: 30px;
-        }
-        footer a {
-            color: #888;
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="logo">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="Pinggle" style="max-width: 280px;">
-        </div>
 
+{% extends "layout.html" %}
 
-        <h1>隱私權政策</h1>
-        <p>我們尊重您的個人隱私，以下是我們如何收集與使用資料的說明：</p>
-
-        <h5>1. 收集的資料</h5>
-        <p>本網站僅會收集您主動輸入的 Email 地址，並用於通知您 Hermès 新品上架資訊。</p>
-
-        <h5>2. 資料的用途</h5>
-        <p>我們僅用您的
+{% block title %}隱私政策{% endblock %}
+{% block content %}
+<h3>隱私政策</h3>
+<p>我們僅會使用您的 Email 作為登入和通知用途，不會對外分享或存取其他資訊。</p>
+{% endblock %}
