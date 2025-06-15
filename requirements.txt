@@ -5,3 +5,4 @@ pycryptodome
 sendgrid
 supabase
 gunicorn
+line-bot-sdk>=2.4.0

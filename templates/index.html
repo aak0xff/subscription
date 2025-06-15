@@ -3,19 +3,59 @@
 {% block title %}首頁{% endblock %}
 
 {% block content %}
-<form method="POST" action="/login">
-  <input type="email" name="email" class="form-control-custom" placeholder="請輸入 Email" required />
-  <div class="d-grid mb-3">
-    <button type="submit" class="btn btn-custom btn-lg">立即訂閱 / 已有帳號登入</button>
-  </div>
-  <p class="mt-4" style="font-size: 0.95rem; color: #bbb;">
-    不錯過任何一款<strong style="color: #fff;">Hermès</strong> 上新好物。<br>
-    即時掌握台灣官網最新男女包款與配件上架動態。
-  </p>
-</form>
 
-<div class="promo-box">
+<style>
+  /* 桌機版中線樣式 */
+  @media (min-width: 768px) {
+    .vertical-divider {
+      width: 1px;
+      background-color: rgba(255, 255, 255, 0.25);  /* 白偏灰 */
+      min-height: 300px;  /* 設定高度可見 */
+      margin: auto;
+    }
+  }
+</style>
+
+<div class="row justify-content-center align-items-center">
+  <!-- 左邊：Email 訂閱 -->
+  <div class="col-md-5 mb-5">
+    <h4 class="mb-3" style="color: #fff;">使用 Email 訂閱</h4>
+    <form method="POST" action="/login">
+      <input type="email" name="email" class="form-control-custom" placeholder="請輸入 Email" required />
+      <div class="d-grid mt-3">
+        <button type="submit" class="btn btn-custom btn-lg">訂閱 / 登入</button>
+      </div>
+    </form>
+  </div>
+
+
+  <!-- 分隔線（桌機版才顯示） -->
+  <div class="col-md-1 d-none d-md-flex justify-content-center">
+    <div class="vertical-divider"></div>
+  </div>
+
+
+  <!-- 右邊：LINE 訂閱 -->
+  <div class="col-md-5 mb-5 text-center">
+    <h4 class="mb-3" style="color: #fff;">使用 LINE 訂閱</h4>
+    <a href="https://line.me/R/ti/p/@092xojku" target="_blank" class="btn btn-outline-light btn-lg">
+      ➤ 加入 Pinggle Line官方帳號
+    </a>
+    <p class="mt-3" style="font-size: 0.9rem; color: #bbb;">
+      加入後傳送 <code>/start</code> 並輸入 Email 完成綁定
+    </p>
+    <img src="/static/line-qrcode.png" alt="LINE QR Code" style="max-width: 180px; margin-top: 15px;" />
+  </div>
+</div>
+
+<!-- 優惠提示 -->
+<p class="mt-4" style="font-size: 0.9rem; color: #bbb;">
+  訂閱後將即時收到台灣 Hermès 官網最新包款與配件上架通知。
+</p>
+
+<div class="promo-box mt-4">
   <p class="mb-1"><strong>⚡ 限時優惠：NT$299 / 月！</strong></p>
   <p class="mb-0">優惠結束後恢復為 NT$499 / 月</p>
 </div>
+
 {% endblock %}

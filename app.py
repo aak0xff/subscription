@@ -7,9 +7,21 @@ from dateutil.parser import isoparse
 from email_util import send_email
 from threading import Thread
 
+from flask import abort
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import MessageEvent, TextMessage, TextSendMessage
+
+
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 app.permanent_session_lifetime = timedelta(days=7)
+
+LINE_CHANNEL_ACCESS_TOKEN = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN")
+LINE_CHANNEL_SECRET = os.environ.get("LINE_CHANNEL_SECRET")
+
+line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_KEY = os.environ["SUPABASE_KEY"]
@@ -52,6 +64,8 @@ def index():
         return redirect("/dashboard")
     return render_template("index.html")
 
+myurl = 'http://127.0.0.1:5000'
+
 @app.route("/login", methods=["POST"])
 def login():
     email = request.form["email"].strip().lower()
@@ -76,7 +90,7 @@ def login():
         "created_at": datetime.now(timezone.utc).isoformat()
     }).execute()
 
-    link = f"https://pinggle.me/verify?token={token}"
+    link = f"{myurl}/verify?token={token}"
     btn = "立即訂閱" if purpose == "subscribe" else "立即登入"
     html = f"""
     <html><body style="font-family:Arial;background:#fff;padding:20px;">
@@ -176,6 +190,51 @@ def privacy():
 @app.route('/terms')
 def terms():
     return render_template("terms.html")
+
+
+
+@app.route("/callback", methods=['POST'])
+def callback():
+    signature = request.headers['X-Line-Signature']
+    body = request.get_data(as_text=True)
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
+    return 'OK'
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    text = event.message.text.strip()
+    user_id = event.source.user_id
+
+    if text.lower() == "/start":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="請輸入你訂閱時填寫的 Email（例如：xxx@gmail.com）")
+        )
+    elif "@" in text and "." in text:
+        email = text.lower()
+        res = subscriber_table.select("email").eq("email", email).execute()
+        if res.data:
+            subscriber_table.update({
+                "line_user_id": user_id,
+                "notify_line": True
+            }).eq("email", email).execute()
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="✅ 綁定成功！之後新品會以 LINE 通知你")
+            )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="找不到這個 Email，請確認你是否已在網站完成訂閱")
+            )
+
+def send_line_message(user_id, message):
+    line_bot_api.push_message(user_id, TextSendMessage(text=message))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
