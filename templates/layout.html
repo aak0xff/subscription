@@ -1,17 +1,124 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{% block title %}Pinggle{% endblock %}</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body { background-color: #000; color: #fff; font-family: 'Poppins', sans-serif; }
-    .wrapper { display: flex; flex-direction: column; min-height: 100vh; }
-    .container { max-width: 700px; margin: auto; padding: 50px 20px; flex: 1; }
-    .text-center-content { text-align: center; }
-    footer { font-size: 0.9rem; color: #bbb; text-align: center; padding: 30px 0; }
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+    }
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 50px 20px;
+      flex: 1;
+    }
+    .text-center-content {
+      text-align: center;
+    }
+    footer {
+      font-size: 0.9rem;
+      color: #bbb;
+      text-align: center;
+      padding: 30px 0;
+    }
+    .form-control-custom {
+      background-color: transparent;
+      color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      padding: 12px;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    .btn-custom {
+      border: 1px solid #ccc;
+      background-color: transparent;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      padding: 12px;
+      color: #fff;
+    }
+    .btn-custom:hover {
+      background-color: #222;
+    }
+    .promo-box {
+      background-color: #b35400;
+      padding: 16px;
+      border-radius: 10px;
+      margin-top: 40px;
+      color: #fff;
+    }
   </style>
+    <style>
+    .legal-container {
+        max-width: 720px;
+        margin: 0 auto;
+        text-align: left;
+        padding: 20px;
+        color: #e0e0e0;
+    }
+    .legal-container h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1.2rem;
+    }
+    .legal-container h5 {
+        font-size: 1.2rem;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+    .legal-container p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+    .legal-container a {
+        color: #ccc;
+        text-decoration: underline;
+    }
+    </style>
+    <style>
+    .legal-container {
+        max-width: 720px;
+        margin: 0 auto;
+        text-align: left;
+        padding: 20px;
+        color: #ccc;
+    }
+    .legal-container h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1.2rem;
+    }
+    .legal-container h5 {
+        font-size: 1.2rem;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #ddd;
+    }
+    .legal-container p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+    .legal-container a {
+        color: #bbb;
+        text-decoration: underline;
+    }
+    </style>
+
 </head>
 <body>
   <div class="wrapper">
@@ -26,8 +133,15 @@
     </div>
 
     <footer>
-      <p>&copy; 2025 Pinggle. <a href="/privacy" style="color: #888;">隱私政策</a></p>
-    </footer>
+    <p class="mb-1" style="font-size: 0.9rem;">&copy; 2025 Pinggle. All rights reserved.</p>
+
+    <p class="mb-1" style="font-size: 0.85rem;">
+        <a href="mailto:support@pinggle.me" style="color: #888;">聯絡我們</a> ｜ 
+        <a href="/privacy" style="color: #888;">隱私權政策</a> ｜ 
+        <a href="/terms" style="color: #888;">服務條款</a>
+    </p>
+    <p style="font-size: 0.8rem; color: #666;" class="mt-2">Crafted with ❤️ by Weishun</p>
+</footer>
   </div>
 </body>
 </html>

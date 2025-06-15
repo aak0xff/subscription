@@ -1,78 +1,21 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pinggle 訂閱系統</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      text-align: center;
-      padding: 0;
-      margin: 0;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 60px 20px;
-    }
-    .form-control-custom {
-      background-color: transparent;
-      color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      padding: 12px;
-      margin-bottom: 20px;
-      width: 100%;
-    }
-    .btn-custom {
-      border: 1px solid #ccc;
-      background-color: transparent;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      padding: 12px;
-      color: #fff;
-    }
-    .btn-custom:hover {
-      background-color: #222;
-    }
-    .promo-box {
-      background-color: #b35400;
-      padding: 16px;
-      border-radius: 10px;
-      margin-top: 40px;
-      color: #fff;
-    }
-  </style>
-</head>
-<body>
+{% extends "layout.html" %}
 
-  <div class="container">
-    <div class="logo">
-      <img src="{{ url_for('static', filename='logo.png') }}" alt="Pinggle Logo" style="max-width: 220px;" class="mb-2">
-    </div>
+{% block title %}首頁{% endblock %}
 
-    <form method="POST" action="/login">
-      <input type="email" name="email" class="form-control-custom" placeholder="請輸入 Email" required />
-      <div class="d-grid mb-3">
-        <button type="submit" class="btn btn-custom btn-lg">立即訂閱 / 已有帳號登入</button>
-      </div>
-      <p class="mt-4" style="font-size: 0.95rem; color: #bbb;">
-        不錯過任何一款<strong style="color: #fff;">Hermès</strong> 上新好物。<br>
-        即時掌握台灣官網最新男女包款與配件上架動態。<br>
-      </p>
-    </form>
-
-    <div class="promo-box">
-      <p class="mb-1"><strong>⚡ 限時優惠：NT$299 / 月！</strong></p>
-      <p class="mb-0">優惠結束後恢復為 NT$499 / 月</p>
-    </div>
+{% block content %}
+<form method="POST" action="/login">
+  <input type="email" name="email" class="form-control-custom" placeholder="請輸入 Email" required />
+  <div class="d-grid mb-3">
+    <button type="submit" class="btn btn-custom btn-lg">立即訂閱 / 已有帳號登入</button>
   </div>
+  <p class="mt-4" style="font-size: 0.95rem; color: #bbb;">
+    不錯過任何一款<strong style="color: #fff;">Hermès</strong> 上新好物。<br>
+    即時掌握台灣官網最新男女包款與配件上架動態。
+  </p>
+</form>
 
-</body>
-</html>
+<div class="promo-box">
+  <p class="mb-1"><strong>⚡ 限時優惠：NT$299 / 月！</strong></p>
+  <p class="mb-0">優惠結束後恢復為 NT$499 / 月</p>
+</div>
+{% endblock %}

@@ -9,7 +9,7 @@ from sendgrid.helpers.mail import Mail
 
 from threading import Thread
 
-
+'''
 def send_email(to_email, subject, html_content):
     message = Mail(
         from_email=('no-reply@pinggle.me', 'Pinggle Hermes 通知系統'),
@@ -55,4 +55,3 @@ def send_email(email_addr_list, subject, html_content):
         server.sendmail(from_addr, [to_addr] + bcc_list, msg.as_string())
 
     print("✅ Email 已成功發送！")
-'''
