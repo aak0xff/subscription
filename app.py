@@ -64,7 +64,7 @@ def index():
         return redirect("/dashboard")
     return render_template("index.html")
 
-myurl = 'http://127.0.0.1:5000'
+myurl = 'https://pinggle.me'
 
 @app.route("/login", methods=["POST"])
 def login():
